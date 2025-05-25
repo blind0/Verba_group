@@ -20,3 +20,6 @@ class SatuItem(scrapy.Item):
     sellers = scrapy.Field()
     description = scrapy.Field()
     attributes = scrapy.Field()
+
+class CategoriesItem(scrapy.Item):
+    categories = scrapy.Field()
