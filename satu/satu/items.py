@@ -9,7 +9,7 @@ import scrapy
 class SatuItem(scrapy.Item):
     url = scrapy.Field()
     product_name = scrapy.Field()
-    img = scrapy.Field()
+    images = scrapy.Field()
     availability = scrapy.Field()
     current_price = scrapy.Field()
     old_price = scrapy.Field()
@@ -20,6 +20,8 @@ class SatuItem(scrapy.Item):
     sellers = scrapy.Field()
     description = scrapy.Field()
     attributes = scrapy.Field()
+    company = scrapy.Field()
+
 
 class CategoriesItem(scrapy.Item):
     alias = scrapy.Field()
