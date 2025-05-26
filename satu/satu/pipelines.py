@@ -33,7 +33,7 @@ class SatuPipeline:
 
 class CategoriesPipeline:
     def open_spider(self, spider):
-        self.file = open('reviews.json', 'wb')
+        self.file = open('categories.json', 'wb')
         self.exporter = JsonItemExporter(self.file, encoding='utf-8')
         self.exporter.start_exporting()
 
