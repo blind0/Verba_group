@@ -10,17 +10,15 @@ class SatuItem(scrapy.Item):
     url = scrapy.Field()
     product_name = scrapy.Field()
     images = scrapy.Field()
+    description = scrapy.Field()
     availability = scrapy.Field()
-    current_price = scrapy.Field()
-    old_price = scrapy.Field()
+    discount_price = scrapy.Field()
+    original_price = scrapy.Field()
     product_count = scrapy.Field()
     product_rating = scrapy.Field()
     reviews_count = scrapy.Field()
-    reviews = scrapy.Field()
-    sellers = scrapy.Field()
-    description = scrapy.Field()
-    attributes = scrapy.Field()
     company = scrapy.Field()
+    attributes = scrapy.Field()
 
 
 class CategoriesItem(scrapy.Item):
