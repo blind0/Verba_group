@@ -82,7 +82,7 @@ class SatuSpider(scrapy.Spider):
     def parse_page(self, response: Response):
         self.logger.info("Parse %s page: %s", response.meta["category"], response.meta["page"])
         product_links = response.xpath('//div[@data-qaid="product_gallery"]'
-                                '//a[@data-qaid and not(@data-qaid="seo_carousel")]/@href').getall()
+                                       '//a[@data-qaid and not(@data-qaid="seo_carousel")]/@href').getall()
         for link in product_links:
             yield response.follow(link, self.parse_item)
 
@@ -115,13 +115,12 @@ class SatuSpider(scrapy.Spider):
             if key.startswith('ProductCardPageQuery'):
                 fast_data = root_query[key]
                 break
-        
         card_data = fast_data["result"]["product"]
 
         item['description'] = card_data.get('descriptionPlain')
         item['availability'] = card_data.get('presence', {}).get('isAvailable')
-        item['old_price'] = card_data.get('discountedPrice')
-        item['current_price'] = card_data.get('priceOriginal')
+        item['discount_price'] = card_data.get('discountedPrice')
+        item['original_price'] = card_data.get('priceOriginal')
         item['product_count'] = card_data.get('ordersCount')
 
         opinion_counters = card_data.get('productOpinionCounters', {})
@@ -151,4 +150,4 @@ class SatuSpider(scrapy.Spider):
                     })
         item['attributes'] = attributes if attributes else None
 
-        yield item
+        yield  item
