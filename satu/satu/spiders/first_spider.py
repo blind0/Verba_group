@@ -95,8 +95,6 @@ class SatuSpider(scrapy.Spider):
         name_text = response.xpath('//h1[@data-qaid="product_name"]/text()').get()
         item['product_name'] = ' '.join(name_text.strip().split()) if name_text else None
 
-        item['images'] = response.xpath('.//div[@data-qaid="image_block"]//img/@src').getall()
-
         script_data = response.xpath(
             "//script[contains(text(), 'window.ApolloCacheState =')]/text()"
         ).get()
@@ -117,7 +115,9 @@ class SatuSpider(scrapy.Spider):
                 break
 
         card_data = fast_data["result"]["product"]
-
+        reviews_data = fast_data["result"]["productOpinionOnProductCardListing"]
+        
+        item['images'] = card_data.get('images', [])
         item['description'] = card_data.get('descriptionPlain')
         item['availability'] = card_data.get('presence', {}).get('isAvailable')
         item['discount_price'] = card_data.get('discountedPrice')
@@ -127,6 +127,17 @@ class SatuSpider(scrapy.Spider):
         opinion_counters = card_data.get('productOpinionCounters', {})
         item['product_rating'] = opinion_counters.get('rating')
         item['reviews_count'] = opinion_counters.get('count')
+
+        reviews = reviews_data.get('opinions', [])
+        item['reviews'] = [
+            {
+                'author': rev.get('authorName'),
+                'date': rev.get('dateCreated'),
+                'text': rev.get('title')
+            }
+            for rev in reviews
+            if any([rev.get('authorName'), rev.get('dateCreated'), rev.get('title')])
+        ]
 
         company = card_data.get('company', {})
         if company:
