@@ -92,9 +92,6 @@ class SatuSpider(scrapy.Spider):
 
         item['url'] = response.url
 
-        name_text = response.xpath('//h1[@data-qaid="product_name"]/text()').get()
-        item['product_name'] = ' '.join(name_text.strip().split()) if name_text else None
-
         script_data = response.xpath(
             "//script[contains(text(), 'window.ApolloCacheState =')]/text()"
         ).get()
@@ -116,7 +113,8 @@ class SatuSpider(scrapy.Spider):
 
         card_data = fast_data["result"]["product"]
         reviews_data = fast_data["result"]["productOpinionOnProductCardListing"]
-        
+
+        item['product_name'] = card_data.get('name')
         item['images'] = card_data.get('images', [])
         item['description'] = card_data.get('descriptionPlain')
         item['availability'] = card_data.get('presence', {}).get('isAvailable')
