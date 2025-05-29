@@ -17,6 +17,7 @@ class SatuItem(scrapy.Item):
     product_count = scrapy.Field()
     product_rating = scrapy.Field()
     reviews_count = scrapy.Field()
+    reviews = scrapy.Field()
     company = scrapy.Field()
     attributes = scrapy.Field()
 
